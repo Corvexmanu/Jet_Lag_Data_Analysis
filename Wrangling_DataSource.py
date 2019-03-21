@@ -4,7 +4,7 @@ Created on Sat Mar  2 14:48:58 2019
 
 @author: corve
 """
-import requests, zipfile, io, os, glob
+import requests, zipfile, io, os
 import pandas as pd 
 #The glob module finds all the pathnames matching a specified pattern
 #The requests module allows you to send organic, grass-fed HTTP/1.1 requests, without the need for manual labor
@@ -19,7 +19,9 @@ class Wrangling_DataSource():
                        "eve.zip",#Extension file zip to download
                        ".\Resources\\",#local folder to store the data
                        "TEAM",#Name of the main file in the zip folder
-                       ["teamID","league","city","teamname"]]#Labels from TEAM file.
+                       ["teamID","league","city","teamname"],
+                       ".\Timezones\\",
+                       ["timesZonesDayLight.xlsx", "timeZonesStandard.xlsx"]]#Labels from TEAM file.
         self.years = list(range(self.minrange,self.maxrange))
     
     def createUrlDest(self):        
@@ -37,13 +39,10 @@ class Wrangling_DataSource():
         return len(os.listdir(destination_WD))       
     
     def getTeams(self,year_WD):
-        listString = []
-        path = self.strRef[2] + str(year_WD)
-        for infile in glob.glob(os.path.join(path, self.strRef[3] + str(year_WD) + "*")):
-            stringFile = open(infile, 'r').read()
-            for i in range(0,len(stringFile.splitlines())):
-                listString.append(stringFile.splitlines()[i].split(","))
-            df = pd.DataFrame.from_records(listString, columns = self.strRef[4] )
+        path = self.strRef[2] + str(year_WD) + "\\" + self.strRef[3] + str(year_WD)
+        print("Extracting teams from " + str(path))
+        df = pd.read_csv(path, header= None)
+        df.columns = self.strRef[4]
         return df 
     
     def getTeamsPerYear(self,year_WD,teamsDf_WD):
@@ -96,6 +95,10 @@ class Wrangling_DataSource():
                             "play_pitches",
                             "play_event"])
             
+            #Adding Columns for field data.
+            infocol.extend(["data_playerid", 
+                            "data_earnedruns"])
+            
             dftemp = pd.DataFrame(columns= infocol , index= index)
             
             #Extracting the data from info.
@@ -131,7 +134,13 @@ class Wrangling_DataSource():
                     dictemp["sub_homevisitor"] = line[3]
                     dictemp["sub_battingposition"] = line[4]
                     dictemp["sub_fieldingposition"] = line[5]
-                    dftemp.loc[guide] = pd.Series(dictemp)                
+                    dftemp.loc[guide] = pd.Series(dictemp)  
+                
+                if line[0]=="data":
+                    dictemp["data_playerid"] = line[2]
+                    dictemp["data_earnedruns"] = line[3]
+                    dftemp.loc[guide] = pd.Series(dictemp) 
+                    
             g.close()
             
             dicEvaEvnData[file] = dftemp
@@ -140,5 +149,22 @@ class Wrangling_DataSource():
     
     def getRosData():
         dicRosData = {}
-        
         return dicRosData
+    
+    def getfinalDataset(self,eventGames_WD):
+        yearsData = {}
+        for i in range(self.minrange, self.maxrange): 
+            yearsData[i] = pd.concat(eventGames_WD[i], axis=0)
+        Data = pd.concat(yearsData, axis=0)
+        return Data
+    
+    def insertTimeZoneInfo(self,Data_WD):
+        path = self.strRef[5] + self.strRef[6][0]
+        print("Data of timezons in " + path + " extracted")
+        timesZonesDayLight = pd.read_excel(path, index_col=0)
+        Data_WD['jetLag'] = None        
+        
+        for index in Data_WD.index.values:
+            Data_WD.loc[index , 'jetLag'] = timesZonesDayLight.loc[Data_WD.loc[index,'hometeam'],Data_WD.loc[index,'visteam']]
+        
+        return Data_WD

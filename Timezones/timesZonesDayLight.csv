@@ -1,0 +1,36 @@
+			-7	-7	-4	-4	-4	-7	-5	-5	-4	-4	-6	-4	-4	-5	-5	-7	-4	-5	-5	-4	-4	-4	-7	-4	-4	-7	-7	-7	-5	-4	-5	-4	-4
+			Anaheim	Arizona	Atlanta	Baltimore	Boston	California	Chicago	Chicago	Cincinnati	Cleveland	Colorado	Detroit	Florida	Houston	Kansas City	Los Angeles	Miami	Milwaukee	Minnesota	Montreal	New York	New York	Oakland	Philadelphia	Pittsburgh	San Diego	Seattle	San Francisco	St.Louis	Tampa Bay	Texas	Toronto	Washington
+			ANA	ARI	ATL	BAL	BOS	CAL	CHA	CHN	CIN	CLE	COL	DET	FLO	HOU	KCA	LAN	MIA	MIL	MIN	MON	NYA	NYN	OAK	PHI	PIT	SDN	SEA	SFN	SLN	TBA	TEX	TOR	WAS
+-7	Anaheim	ANA	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-7	Arizona	ARI	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-4	Atlanta	ATL	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	Baltimore	BAL	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	Boston	BOS	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-7	California	CAL	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-5	Chicago	CHA	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-5	Chicago	CHN	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-4	Cincinnati	CIN	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	Cleveland	CLE	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-6	Colorado	COL	-1	-1	2	2	2	-1	1	1	2	2	0	2	2	1	1	-1	2	1	1	2	2	2	-1	2	2	-1	-1	-1	1	2	1	2	2
+-4	Detroit	DET	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	Florida	FLO	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-5	Houston	HOU	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-5	Kansas City	KCA	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-7	Los Angeles	LAN	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-4	Miami	MIA	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-5	Milwaukee	MIL	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-5	Minnesota	MIN	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-4	Montreal	MON	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	New York	NYA	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	New York	NYN	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-7	Oakland	OAK	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-4	Philadelphia	PHI	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	Pittsburgh	PIT	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-7	San Diego	SDN	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-7	Seattle	SEA	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-7	San Francisco	SFN	0	0	3	3	3	0	2	2	3	3	1	3	3	2	2	0	3	2	2	3	3	3	0	3	3	0	0	0	2	3	2	3	3
+-5	St.Louis	SLN	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-4	Tampa Bay	TBA	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-5	Texas	TEX	-2	-2	1	1	1	-2	0	0	1	1	-1	1	1	0	0	-2	1	0	0	1	1	1	-2	1	1	-2	-2	-2	0	1	0	1	1
+-4	Toronto	TOR	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0
+-4	Washington	WAS	-3	-3	0	0	0	-3	-1	-1	0	0	-2	0	0	-1	-1	-3	0	-1	-1	0	0	0	-3	0	0	-3	-3	-3	-1	0	-1	0	0

@@ -14,10 +14,11 @@ eventGames = {}
 
 def main():
     #Defining the global variables 
-    min, max = 1950,1952
+    minimum = 1980
+    maximum = 1981
     
     #USING THE CLASS WRANGLING DATASOURCE
-    dataImported = WD.Wrangling_DataSource(min,max)  
+    dataImported = WD.Wrangling_DataSource(minimum,maximum)  
     
     #Creating Dictionary of url and destination
     dictUrlsDest = dataImported.createUrlDest()  
@@ -34,14 +35,13 @@ def main():
     
     #Extracting EVA and EVN files    
     for year in filesToExtract.keys(): eventGames[year] = dataImported.getEvaEvnData(year_WD= year, filesToExtract_WD= filesToExtract[year]) 
+    
+    #Create The final Dataset
+    dataEvents = dataImported.getfinalDataset(eventGames_WD= eventGames)
+    dataTimeZones = dataImported.insertTimeZoneInfo(Data_WD= dataEvents)
+    dataTimeZones.to_csv('Dataset.csv')    
 
 #Executing the main program.
 #if __name__ == "__main__": 
 main()
 
-
-    
-with open('test.csv', 'w') as f:
-    for key in eventGames[1950].keys():
-        for idx in eventGames[1950][key].index.values:
-            f.write("%s\n"%(",".join(list(eventGames[1950][key].loc[[idx], :]))))

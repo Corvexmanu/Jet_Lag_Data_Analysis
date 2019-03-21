@@ -1,0 +1,34 @@
+teamID,league,city,teamname,daylightTime,timedaylightTime,standardTime,timeStandardTime
+ANA,A,Anaheim,Angels,PDT,-7,PST,-8
+ARI,N,Arizona,Diamondbacks,MST,-7,MST,-7
+ATL,N,Atlanta,Braves,EDT,-4,EST,-5
+BAL,A,Baltimore,Orioles,EDT,-4,EST,-5
+BOS,A,Boston,Red Sox,EDT,-4,EST,-5
+CAL,A,California,Angels,PDT,-7,PST,-8
+CHA,A,Chicago,White Sox,CDT,-5,CST,-6
+CHN,N,Chicago,Cubs,CDT,-5,CST,-6
+CIN,N,Cincinnati,Reds,EDT,-4,EST,-5
+CLE,A,Cleveland,Indians,EDT,-4,EST,-5
+COL,N,Colorado,Rockies,MDT,-6,MST,-7
+DET,A,Detroit,Tigers,EDT,-4,EST,-5
+FLO,N,Florida,Marlins,EDT,-4,EST,-5
+HOU,N,Houston,Astros,CDT,-5,CST,-6
+KCA,A,Kansas City,Royals,CDT,-5,CST,-6
+LAN,N,Los Angeles,Dodgers,PDT,-7,PST,-8
+MIA,N,Miami,Marlins,EDT,-4,EST,-5
+MIL,A,Milwaukee,Brewers,CDT,-5,CST,-6
+MIN,A,Minnesota,Twins,CDT,-5,CST,-6
+MON,N,Montreal,Expos,EDT,-4,EST,-5
+NYA,A,New York,Yankees,EDT,-4,EST,-5
+NYN,N,New York,Mets,EDT,-4,EST,-5
+OAK,A,Oakland,Athletics,PDT,-7,PST,-8
+PHI,N,Philadelphia,Phillies,EDT,-4,EST,-5
+PIT,N,Pittsburgh,Pirates,EDT,-4,EST,-5
+SDN,N,San Diego,Padres,PDT,-7,PST,-8
+SEA,A,Seattle,Mariners,PDT,-7,PST,-8
+SFN,N,San Francisco,Giants,PDT,-7,PST,-8
+SLN,N,St.Louis,Cardinals,CDT,-5,CST,-6
+TBA,A,Tampa Bay,Devil Rays,EDT,-4,EST,-5
+TEX,A,Texas,Rangers,CDT,-5,CST,-6
+TOR,A,Toronto,Blue Jays,EDT,-4,EST,-5
+WAS,N,Washington,Nationals,EDT,-4,EST,-5
