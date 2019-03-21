@@ -5,7 +5,8 @@ Created on Sat Mar  2 14:48:58 2019
 @author: corve
 """
 import requests, zipfile, io, os
-import pandas as pd 
+import pandas as pd
+import numpy as np 
 #The glob module finds all the pathnames matching a specified pattern
 #The requests module allows you to send organic, grass-fed HTTP/1.1 requests, without the need for manual labor
 
