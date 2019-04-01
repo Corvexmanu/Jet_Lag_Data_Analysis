@@ -11,11 +11,16 @@ teamsDf = {}
 teamsPerYear = {}
 filesToExtract = {}
 eventGames = {}
+tableInfo = {}
+tableStart = {}
+tablePlay = {}
+tableSub = {}
+tableData = {}
 
 def main():
     #Defining the global variables 
-    minimum = 1980
-    maximum = 1981
+    minimum = 1992
+    maximum = 1994
     
     #USING THE CLASS WRANGLING DATASOURCE
     dataImported = WD.Wrangling_DataSource(minimum,maximum)  
@@ -33,15 +38,25 @@ def main():
     #Creating Structure of List of list of Files from each season. [[EVA and EVN],[ROS],[EDA and EDN]]
     for year in teamsPerYear.keys(): filesToExtract[year] = dataImported.getNameFiles(year_WD= year, teamsPerYear_WD= teamsPerYear[year] )  
     
-    #Extracting EVA and EVN files    
-    for year in filesToExtract.keys(): eventGames[year] = dataImported.getEvaEvnData(year_WD= year, filesToExtract_WD= filesToExtract[year]) 
     
+    for year in filesToExtract.keys(): 
+        tableInfo[year] = dataImported.getTableinfo(year_WD= year, filesToExtract_WD= filesToExtract[year])
+        tableStart[year] = dataImported.getTableStart(year_WD= year, filesToExtract_WD= filesToExtract[year])
+        tablePlay[year] = dataImported.getTablePlay(year_WD= year, filesToExtract_WD= filesToExtract[year])
+        tableSub[year] = dataImported.getTableSub(year_WD= year, filesToExtract_WD= filesToExtract[year])
+        tableData[year] = dataImported.getTableData(year_WD= year, filesToExtract_WD= filesToExtract[year])
+    
+    return tableInfo, tableStart, tablePlay, tableSub, tableData
+    '''
+    #Extracting EVA and EVN files    
+    for year in filesToExtract.keys(): eventGames[year] = dataImported.getEvaEvnData(year_WD= year, filesToExtract_WD= filesToExtract[year])     
     #Create The final Dataset
-    dataEvents = dataImported.getfinalDataset(eventGames_WD= eventGames)
+    dataEvents = dataImported.getfinalDataset(eventGames_WD= eventGames)    
     dataTimeZones = dataImported.insertTimeZoneInfo(Data_WD= dataEvents)
-    dataTimeZones.to_csv('Dataset.csv')    
+    dataTimeZones.to_csv('Dataset.csv')
+    '''    
 
 #Executing the main program.
 #if __name__ == "__main__": 
-main()
+tableInfo, tableStart, tablePlay, tableSub, tableData = main()
 

@@ -58,7 +58,141 @@ class Wrangling_DataSource():
         filesList.append(list(teamsPerYear_WD["rosFiles"]))        
         filesList.append([str(year_WD) + ".EDA", str(year_WD) + ".EDN"])
         return filesList
-        
+    
+    #This table has a structure info,column,value.
+    def getTableinfo(self,year_WD, filesToExtract_WD):
+        print("################## Creating Table Info #####################")
+        dic_temp = {}
+        info_col = []        
+        for file in filesToExtract_WD[0]:
+            print(str(file) + " file in process.")
+            #Extracting the columns and the index for the dataframe
+            f = open(self.strRef[2] + str(year_WD)+ "\\" + file , 'r')
+            for line in f:
+                line = line.strip().split(",")                
+                if line[0] == "info" and line[1] not in info_col: 
+                    info_col.append(line[1])     
+            f.close()  
+            dftemp = pd.DataFrame(columns= info_col)            
+            g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
+            for line in g:
+                line = line.strip().split(",")
+                if line[0]=="id":   
+                    guide = line[1]
+                if line[0]=="info":
+                   dic_temp[line[1]] = line[2]  
+                   dftemp.loc[guide] = pd.Series(dic_temp)
+            g.close()
+        dftemp['Game_ID'] = dftemp.index
+        dftemp = dftemp.reindex_axis(['Game_ID'] + list(dftemp.columns[:-1]), axis=1)
+        return dftemp
+    
+    #This table has a structure info,value,value,value
+    def getTableStart(self,year_WD, filesToExtract_WD):
+        print("################## Creating Table Start #####################")
+        new_row = []
+        count = 0
+        start_col = ["Game_ID","Table_ID","start_playerid", 
+                            "start_playersname", 
+                            "start_visithometeam", 
+                            "start_battingposition", 
+                            "start_fieldingposition"]
+        dftemp = pd.DataFrame(columns= start_col)        
+        for file in filesToExtract_WD[0]:
+            print(str(file) + " file in process.")            
+            g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
+            for line in g:
+                line = line.strip().split(",")
+                if line[0] == "id": 
+                    guide = line[1]
+                if line[0]=="start": 
+                    new_row.append(guide)
+                    new_row.extend(line)
+                    dftemp.loc[count]= new_row
+                    new_row = []
+                    count = count + 1
+            g.close()
+        return dftemp
+    
+    #This table has a structure info,value,value,value
+    def getTablePlay(self,year_WD, filesToExtract_WD):
+        print("################## Creating Table Play #####################")
+        new_row = []
+        count = 0
+        start_col = ["Game_ID","Table_ID","play_inning", 
+                            "play_homevisitor", 
+                            "play_playerid", 
+                            "play_count", 
+                            "play_pitches",
+                            "play_event"]
+        dftemp = pd.DataFrame(columns= start_col)        
+        for file in filesToExtract_WD[0]:
+            print(str(file) + " file in process.")            
+            g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
+            for line in g:
+                line = line.strip().split(",")
+                if line[0] == "id": 
+                    guide = line[1]
+                if line[0]=="play": 
+                    new_row.append(guide)
+                    new_row.extend(line)
+                    dftemp.loc[count]= new_row
+                    new_row = []
+                    count = count + 1
+            g.close()
+        return dftemp
+    
+    #This table has a structure info,value,value,value
+    def getTableSub(self,year_WD, filesToExtract_WD):
+        print("################## Creating Table Sub #####################")
+        new_row = []
+        count = 0
+        start_col = ["Game_ID","Table_ID","sub_playerid", 
+                            "sub_playersname", 
+                            "sub_homevisitor", 
+                            "sub_battingposition", 
+                            "sub_fieldingposition"]
+        dftemp = pd.DataFrame(columns= start_col)        
+        for file in filesToExtract_WD[0]:
+            print(str(file) + " file in process.")            
+            g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
+            for line in g:
+                line = line.strip().split(",")
+                if line[0] == "id": 
+                    guide = line[1]
+                if line[0]=="Sub": 
+                    new_row.append(guide)
+                    new_row.extend(line)
+                    dftemp.loc[count]= new_row
+                    new_row = []
+                    count = count + 1
+            g.close()
+        return dftemp
+    
+    #This table has a structure info,value,value,value
+    def getTableData(self,year_WD, filesToExtract_WD):
+        print("################## Creating Table Data #####################")
+        new_row = []
+        count = 0
+        start_col = ["Game_ID","er","Table_ID","data_playerid", 
+                            "data_earnedruns"]
+        dftemp = pd.DataFrame(columns= start_col)        
+        for file in filesToExtract_WD[0]:
+            print(str(file) + " file in process.")            
+            g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
+            for line in g:
+                line = line.strip().split(",")
+                if line[0] == "id": 
+                    guide = line[1]
+                if line[0]=="data": 
+                    new_row.append(guide)
+                    new_row.extend(line)
+                    dftemp.loc[count]= new_row
+                    new_row = []
+                    count = count + 1
+            g.close()
+        return dftemp
+    
     def getEvaEvnData(self,year_WD, filesToExtract_WD):       
         dicEvaEvnData = {}
         for file in filesToExtract_WD[0]:
@@ -100,9 +234,10 @@ class Wrangling_DataSource():
             infocol.extend(["data_playerid", 
                             "data_earnedruns"])
             
+            #Creating the initial dataframe structure.
             dftemp = pd.DataFrame(columns= infocol , index= index)
             
-            #Extracting the data from info.
+            #Extracting the data from each ection.
             g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
             for line in g:
                 line = line.strip().split(",")
