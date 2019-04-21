@@ -5,6 +5,7 @@ Created on Thu Mar 14 18:19:36 2019
 @author: corve
 """
 import pandas as pd
+import numpy as np
 
 def insertTimeZoneInfo():
     pathDataset = ".\Dataset.csv"
@@ -18,4 +19,12 @@ def insertTimeZoneInfo():
 
     return Data_WD
 
-timesZonesDayLight = insertTimeZoneInfo()
+
+
+def doSomething():
+    Data = pd.read_csv('parkcode.csv')
+    
+    return Data
+    
+    
+Data = doSomething()

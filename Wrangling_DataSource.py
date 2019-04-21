@@ -63,17 +63,22 @@ class Wrangling_DataSource():
     def getTableinfo(self,year_WD, filesToExtract_WD):
         print("################## Creating Table Info #####################")
         dic_temp = {}
-        info_col = []        
+        info_col = []  
+        
         for file in filesToExtract_WD[0]:
-            print(str(file) + " file in process.")
             #Extracting the columns and the index for the dataframe
             f = open(self.strRef[2] + str(year_WD)+ "\\" + file , 'r')
             for line in f:
                 line = line.strip().split(",")                
                 if line[0] == "info" and line[1] not in info_col: 
                     info_col.append(line[1])     
-            f.close()  
-            dftemp = pd.DataFrame(columns= info_col)            
+            f.close()
+            
+        dftemp = pd.DataFrame(columns= info_col) 
+        
+        for file in filesToExtract_WD[0]:
+            print(str(file) + " file in process.")
+            #Extracting the columns and the index for the dataframe                       
             g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
             for line in g:
                 line = line.strip().split(",")
@@ -83,21 +88,28 @@ class Wrangling_DataSource():
                    dic_temp[line[1]] = line[2]  
                    dftemp.loc[guide] = pd.Series(dic_temp)
             g.close()
+            
         dftemp['Game_ID'] = dftemp.index
-        dftemp = dftemp.reindex_axis(['Game_ID'] + list(dftemp.columns[:-1]), axis=1)
-        return dftemp
+        dftemp = dftemp.reindex_axis(['Game_ID'] + list(dftemp.columns[:-1]), axis=1)      
+        info_teams = dftemp[["Game_ID","hometeam", "visteam"]]
+        info_teams.set_index("Game_ID", inplace = True)
+        
+        return dftemp, info_teams
     
     #This table has a structure info,value,value,value
     def getTableStart(self,year_WD, filesToExtract_WD):
         print("################## Creating Table Start #####################")
         new_row = []
         count = 0
+        
         start_col = ["Game_ID","Table_ID","start_playerid", 
                             "start_playersname", 
                             "start_visithometeam", 
                             "start_battingposition", 
                             "start_fieldingposition"]
+        
         dftemp = pd.DataFrame(columns= start_col)        
+        
         for file in filesToExtract_WD[0]:
             print(str(file) + " file in process.")            
             g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
@@ -112,6 +124,7 @@ class Wrangling_DataSource():
                     new_row = []
                     count = count + 1
             g.close()
+            
         return dftemp
     
     #This table has a structure info,value,value,value
@@ -119,13 +132,16 @@ class Wrangling_DataSource():
         print("################## Creating Table Play #####################")
         new_row = []
         count = 0
+        
         start_col = ["Game_ID","Table_ID","play_inning", 
                             "play_homevisitor", 
                             "play_playerid", 
                             "play_count", 
                             "play_pitches",
                             "play_event"]
-        dftemp = pd.DataFrame(columns= start_col)        
+        
+        dftemp = pd.DataFrame(columns= start_col)   
+        
         for file in filesToExtract_WD[0]:
             print(str(file) + " file in process.")            
             g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
@@ -140,6 +156,7 @@ class Wrangling_DataSource():
                     new_row = []
                     count = count + 1
             g.close()
+            
         return dftemp
     
     #This table has a structure info,value,value,value
@@ -147,12 +164,15 @@ class Wrangling_DataSource():
         print("################## Creating Table Sub #####################")
         new_row = []
         count = 0
+        
         start_col = ["Game_ID","Table_ID","sub_playerid", 
                             "sub_playersname", 
                             "sub_homevisitor", 
                             "sub_battingposition", 
                             "sub_fieldingposition"]
-        dftemp = pd.DataFrame(columns= start_col)        
+        
+        dftemp = pd.DataFrame(columns= start_col)     
+        
         for file in filesToExtract_WD[0]:
             print(str(file) + " file in process.")            
             g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
@@ -160,13 +180,14 @@ class Wrangling_DataSource():
                 line = line.strip().split(",")
                 if line[0] == "id": 
                     guide = line[1]
-                if line[0]=="Sub": 
+                if line[0]=="sub": 
                     new_row.append(guide)
                     new_row.extend(line)
                     dftemp.loc[count]= new_row
                     new_row = []
                     count = count + 1
             g.close()
+            
         return dftemp
     
     #This table has a structure info,value,value,value
