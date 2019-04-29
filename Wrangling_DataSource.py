@@ -94,6 +94,12 @@ class Wrangling_DataSource():
         info_teams = dftemp[["Game_ID","hometeam", "visteam"]]
         info_teams.set_index("Game_ID", inplace = True)
         
+        pathtemp = r'.\tables\dictionaries\dictInfo_' + str(year_WD) + '.csv'
+        dftemp.to_csv(pathtemp)
+        
+        pathinfoteams = r'.\tables\dictionaries\dictInfoTeams_' + str(year_WD) + '.csv'
+        info_teams.to_csv(pathinfoteams)
+        
         return dftemp, info_teams
     
     #This table has a structure info,value,value,value
@@ -124,7 +130,10 @@ class Wrangling_DataSource():
                     new_row = []
                     count = count + 1
             g.close()
-            
+        
+        path = r'.\tables\dictionaries\dictStart_' + str(year_WD) + '.csv'
+        dftemp.to_csv(path)    
+        
         return dftemp
     
     #This table has a structure info,value,value,value
@@ -156,7 +165,10 @@ class Wrangling_DataSource():
                     new_row = []
                     count = count + 1
             g.close()
-            
+       
+        path = r'.\tables\dictionaries\dictPlay_' + str(year_WD) + '.csv'
+        dftemp.to_csv(path) 
+        
         return dftemp
     
     #This table has a structure info,value,value,value
@@ -187,7 +199,10 @@ class Wrangling_DataSource():
                     new_row = []
                     count = count + 1
             g.close()
-            
+         
+        path = r'.\tables\dictionaries\dictSub_' + str(year_WD) + '.csv'
+        dftemp.to_csv(path) 
+        
         return dftemp
     
     #This table has a structure info,value,value,value
@@ -212,97 +227,12 @@ class Wrangling_DataSource():
                     new_row = []
                     count = count + 1
             g.close()
+        
+        path = r'.\tables\dictionaries\dictData_' + str(year_WD) + '.csv'
+        dftemp.to_csv(path) 
+        
         return dftemp
     
-    def getEvaEvnData(self,year_WD, filesToExtract_WD):       
-        dicEvaEvnData = {}
-        for file in filesToExtract_WD[0]:
-            print(str(file) + " file in process.")
-            index = []
-            infocol = []
-            dictemp = {}
-            #Extracting the columns and the index for the dataframe
-            f = open(self.strRef[2] + str(year_WD)+ "\\" + file , 'r')
-            for line in f:
-                line = line.strip().split(",")
-                if line[0]=="id":   index.append(line[1])
-                if line[0]=="info" and line[1] not in infocol: infocol.append(line[1])     
-            f.close()
-            
-            #Adding Columns for start data.
-            infocol.extend(["start_playerid", 
-                            "start_playersname", 
-                            "start_visithometeam", 
-                            "start_battingposition", 
-                            "start_fieldingposition"])
-            
-            #Adding Columns for sub data.
-            infocol.extend(["sub_playerid", 
-                            "sub_playersname", 
-                            "sub_homevisitor", 
-                            "sub_battingposition", 
-                            "sub_fieldingposition"])
-            
-            #Adding Columns for play data.
-            infocol.extend(["play_inning", 
-                            "play_homevisitor", 
-                            "play_playerid", 
-                            "play_count", 
-                            "play_pitches",
-                            "play_event"])
-            
-            #Adding Columns for field data.
-            infocol.extend(["data_playerid", 
-                            "data_earnedruns"])
-            
-            #Creating the initial dataframe structure.
-            dftemp = pd.DataFrame(columns= infocol , index= index)
-            
-            #Extracting the data from each ection.
-            g = open(self.strRef[2] + str(year_WD) + "\\" + file , 'r')        
-            for line in g:
-                line = line.strip().split(",")
-                if line[0]=="id":   guide = line[1]  
-                
-                if line[0]=="info":
-                    dictemp[line[1]] = line[2]
-                    dftemp.loc[guide] = pd.Series(dictemp)
-                    
-                if line[0]=="start":
-                    dictemp["start_playerid"] = line[1]
-                    dictemp["start_playersname"] = line[2]
-                    dictemp["start_visithometeam"] = line[3]
-                    dictemp["start_battingposition"] = line[4]
-                    dictemp["start_fieldingposition"] = line[5]
-                    dftemp.loc[guide] = pd.Series(dictemp)
-                    
-                if line[0]=="play":
-                    dictemp["play_inning"] = line[1]
-                    dictemp["play_homevisitor"] = line[2]
-                    dictemp["play_playerid"] = line[3]
-                    dictemp["play_count"] = line[4]
-                    dictemp["play_pitches"] = line[5]
-                    dictemp["play_event"] = line[6]
-                    dftemp.loc[guide] = pd.Series(dictemp)
-                
-                if line[0]=="sub":
-                    dictemp["sub_playerid"] = line[1]
-                    dictemp["sub_playersname"] = line[2]
-                    dictemp["sub_homevisitor"] = line[3]
-                    dictemp["sub_battingposition"] = line[4]
-                    dictemp["sub_fieldingposition"] = line[5]
-                    dftemp.loc[guide] = pd.Series(dictemp)  
-                
-                if line[0]=="data":
-                    dictemp["data_playerid"] = line[2]
-                    dictemp["data_earnedruns"] = line[3]
-                    dftemp.loc[guide] = pd.Series(dictemp) 
-                    
-            g.close()
-            
-            dicEvaEvnData[file] = dftemp
-        
-        return dicEvaEvnData
     
     def getRosData():
         dicRosData = {}

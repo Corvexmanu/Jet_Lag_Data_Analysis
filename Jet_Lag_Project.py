@@ -7,8 +7,9 @@ Created on Sat Mar  2 15:21:31 2019
 import pandas as pd
 import Wrangling_DataSource as WD
 import Transforming_DataSource as Transformation
-minimum = 1998
-maximum = 1999
+
+minimum = 1992
+maximum = 2012
 teamsDf = {}
 teamsPerYear = {}
 filesToExtract = {}
@@ -22,17 +23,24 @@ info_teams = {}
 dict_Play_Grouped = {}
 dict_Play_transformed = {}
 dict_Games_Per_Team = {}
-dict_offensive_Measures ={}
+dict_offensive_Defensive_Measures ={}
 dict_Chronologic_Games = {}
 df_timesZonesDayLight_site = pd.DataFrame()
 dataset_Constant_Cfip = pd.DataFrame()
-dict_Offensive_Measure_Jet_Lag = {}
+dict_Offensive_Defensive_Measure_Jet_Lag = {}
 Innings = {}
+df_final_Dataset = pd.DataFrame()
+df_Offensive_Dataset_Same = pd.DataFrame()
+df_Offensive_Dataset_East = pd.DataFrame()
+df_Offensive_Dataset_West = pd.DataFrame()
+df_Defensive_Dataset_Same = pd.DataFrame()
+df_Defensive_Dataset_East = pd.DataFrame()
+df_Defensive_Dataset_West = pd.DataFrame()
+
 
 
 def dataExtraction():
-    #Defining the global variables 
-    
+
     #USING THE CLASS WRANGLING DATASOURCE
     dataImported = WD.Wrangling_DataSource(minimum,maximum)  
     
@@ -56,76 +64,72 @@ def dataExtraction():
         dictSub[year] = dataImported.getTableSub(year_WD= year, filesToExtract_WD= filesToExtract[year])
         dictData[year] = dataImported.getTableData(year_WD= year, filesToExtract_WD= filesToExtract[year])
     
-    #Printing Files for the first year
-    dictInfo[minimum].to_csv(r'.\tables\dictInfo.csv')
-    dictStart[minimum].to_csv(r'.\tables\dictStart.csv')
-    dictSub[minimum].to_csv(r'.\tables\dictSub.csv')
-    dictData[minimum].to_csv(r'.\tables\dictData.csv')
-    dictPlay[minimum].to_csv(r'.\tables\dictPlay.csv')
-    info_teams[minimum].to_csv(r'.\tables\infoteams.csv')
-    
     return dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams
 
 
 
 def datalocalwrangling():
     
-    dictInfo[minimum] = pd.read_csv(r'.\tables\dictInfo.csv')
-    dictInfo[minimum].set_index("Unnamed: 0", inplace = True)
-    
-    dictPlay[minimum] = pd.read_csv(r'.\tables\dictPlay.csv')
-    dictPlay[minimum].drop("Unnamed: 0", axis=1, inplace=True)
-    
-    dictStart[minimum] = pd.read_csv(r'.\tables\dictStart.csv')
-    dictStart[minimum].drop("Unnamed: 0", axis=1, inplace=True)
-    
-    dictSub[minimum] = pd.read_csv(r'.\tables\dictSub.csv')
-    dictSub[minimum].drop("Unnamed: 0", axis=1, inplace=True)
-    #dictSub[minimum].set_index("Game_ID", inplace = True)
-    
-    dictData[minimum] = pd.read_csv(r'.\tables\dictData.csv')
-    dictData[minimum].drop("Unnamed: 0", axis=1, inplace=True)
-    
-    info_teams[minimum] = pd.read_csv(r'.\tables\infoteams.csv')
-    info_teams[minimum].set_index("Game_ID", inplace = True)
+    for year in range(minimum,maximum):
+        
+        pathInfo = r'.\tables\dictionaries\dictInfo_' + str(year) + '.csv'
+        dictInfo[year] = pd.read_csv(pathInfo)
+        dictInfo[year].set_index("Unnamed: 0", inplace = True)
+        
+        pathPlay = r'.\tables\dictionaries\dictPlay_' + str(year) + '.csv'
+        dictPlay[year] = pd.read_csv(pathPlay)
+        dictPlay[year].drop("Unnamed: 0", axis=1, inplace=True)
+        
+        pathStart = r'.\tables\dictionaries\dictStart_' + str(year) + '.csv'
+        dictStart[year] = pd.read_csv(pathStart)
+        dictStart[year].drop("Unnamed: 0", axis=1, inplace=True)
+        
+        pathSub = r'.\tables\dictionaries\dictSub_' + str(year) + '.csv'
+        dictSub[year] = pd.read_csv(pathSub)
+        dictSub[year].drop("Unnamed: 0", axis=1, inplace=True)
+        
+        pathData = r'.\tables\dictionaries\dictData_' + str(year) + '.csv'
+        dictData[year] = pd.read_csv(pathData)
+        dictData[year].drop("Unnamed: 0", axis=1, inplace=True)
+        
+        pathInfoTeams = r'.\tables\dictionaries\dictInfoTeams_' + str(year) + '.csv'
+        info_teams[year] = pd.read_csv(pathInfoTeams)
+        info_teams[year].set_index("Game_ID", inplace = True)
     
     return dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams
 
 
 
 def dataTransformation(dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams):
-    #USING THE CLASS TRANSFORMING_DATASOURCES
+
     dict_Play_transformed = Transformation.createNewAttributes(dictPlay, info_teams, minimum, maximum)  
     dict_Play_Grouped, Innings = Transformation.calculatePlayGrouped(dict_Play_transformed, minimum, maximum)
     dataset_Constant_Cfip = Transformation.importConstantCfip()
     dict_Games_Per_Team = Transformation.createOffensiveAndDefensiveVariables(dict_Play_Grouped, dataset_Constant_Cfip, minimum, maximum)    
     df_timesZonesDayLight_site =  Transformation.importtimesZonesDayLight_site()   
-    dict_Chronologic_Games = Transformation.createChronologicGamesJetLag(dict_Games_Per_Team, dictInfo, df_timesZonesDayLight_site, minimum, maximum)
+    dict_Chronologic_Games = Transformation.createChronologicGamesJetLag(dict_Games_Per_Team, dictInfo, df_timesZonesDayLight_site, minimum, maximum)    
+    dict_offensive_Defensive_Measures = Transformation.createFinalVariablesDictionary(dict_Games_Per_Team,  minimum, maximum)
+    dict_Offensive_Defensive_Measure_Jet_Lag = Transformation.combineOffensiveDefensiveMeasureJetLag(dict_offensive_Defensive_Measures,dict_Chronologic_Games, minimum, maximum)
     
+    return dataset_Constant_Cfip, Innings,dict_Offensive_Defensive_Measure_Jet_Lag, df_timesZonesDayLight_site, dict_Chronologic_Games, dict_Play_transformed, dict_Play_Grouped, dict_Games_Per_Team, dict_offensive_Defensive_Measures
+
+def dataSelectionAndPartitioning(dict_Offensive_Defensive_Measure_Jet_Lag):
     
-    dict_offensive_Measures = Transformation.createOffensiveDataset(dict_Games_Per_Team,  minimum, maximum)
-    dict_Offensive_Measure_Jet_Lag = Transformation.combineOffensiveMeasureJetLag(dict_offensive_Measures,dict_Chronologic_Games, minimum, maximum)
+    df_final_Dataset = Transformation.createFinalDataset(dict_Offensive_Defensive_Measure_Jet_Lag, minimum, maximum)
     
-
-    return dataset_Constant_Cfip, Innings,dict_Offensive_Measure_Jet_Lag, df_timesZonesDayLight_site, dict_Chronologic_Games, dict_Play_transformed, dict_Play_Grouped, dict_Games_Per_Team, dict_offensive_Measures
-
-
+    df_Offensive_Dataset = Transformation.createOffensiveDataset(dict_Offensive_Defensive_Measure_Jet_Lag, minimum, maximum)
+    df_Defensive_Dataset = Transformation.createDefensiveDataset(dict_Offensive_Defensive_Measure_Jet_Lag, minimum, maximum)
+    
+    df_Offensive_Dataset_Same, df_Offensive_Dataset_East, df_Offensive_Dataset_West = Transformation.splitDatasetsbyJetlagDirection(df_Offensive_Dataset, 'Ofensive', minimum, maximum)
+    
+    df_Defensive_Dataset_Same, df_Defensive_Dataset_East, df_Defensive_Dataset_West = Transformation.splitDatasetsbyJetlagDirection(df_Defensive_Dataset, 'Defensive', minimum, maximum)
+    
+    return df_final_Dataset, df_Defensive_Dataset_Same, df_Defensive_Dataset_East, df_Defensive_Dataset_West, df_Offensive_Dataset_Same, df_Offensive_Dataset_East, df_Offensive_Dataset_West, df_Offensive_Dataset, df_Defensive_Dataset
 
 
 
 #Executing the main program.
 #dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams = dataExtraction()
 dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams = datalocalwrangling()
-dataset_Constant_Cfip, Innings,dict_Offensive_Measure_Jet_Lag, df_timesZonesDayLight_site, dict_Chronologic_Games, dict_Play_transformed, dict_Play_Grouped, dict_Games_Per_Team, dict_offensive_Measures = dataTransformation(dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams)
-
-
-
-
-
-#dict_Chronologic_Games[1998].info()
-
-
-
-
-
-
+dataset_Constant_Cfip, Innings,dict_Offensive_Defensive_Measure_Jet_Lag, df_timesZonesDayLight_site, dict_Chronologic_Games, dict_Play_transformed, dict_Play_Grouped, dict_Games_Per_Team, dict_offensive_Defensive_Measures = dataTransformation(dictInfo, dictStart, dictPlay, dictSub, dictData, info_teams)
+df_final_Dataset, df_Defensive_Dataset_Same, df_Defensive_Dataset_East, df_Defensive_Dataset_West, df_Offensive_Dataset_Same, df_Offensive_Dataset_East, df_Offensive_Dataset_West, Offensive_Dataset, Defensive_Dataset = dataSelectionAndPartitioning(dict_Offensive_Defensive_Measure_Jet_Lag)

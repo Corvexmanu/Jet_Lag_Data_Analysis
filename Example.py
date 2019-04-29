@@ -27,4 +27,6 @@ def doSomething():
     return Data
     
     
-Data = doSomething()
+a = list(range(1,55))
+myList = '\" \"'.join(map(str, a)) 
+print(myList)
