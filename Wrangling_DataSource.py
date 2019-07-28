@@ -6,7 +6,6 @@ Created on Sat Mar  2 14:48:58 2019
 """
 import requests, zipfile, io, os
 import pandas as pd
-import numpy as np 
 #The glob module finds all the pathnames matching a specified pattern
 #The requests module allows you to send organic, grass-fed HTTP/1.1 requests, without the need for manual labor
 
@@ -233,25 +232,3 @@ class Wrangling_DataSource():
         
         return dftemp
     
-    
-    def getRosData():
-        dicRosData = {}
-        return dicRosData
-    
-    def getfinalDataset(self,eventGames_WD):
-        yearsData = {}
-        for i in range(self.minrange, self.maxrange): 
-            yearsData[i] = pd.concat(eventGames_WD[i], axis=0)
-        Data = pd.concat(yearsData, axis=0)
-        return Data
-    
-    def insertTimeZoneInfo(self,Data_WD):
-        path = self.strRef[5] + self.strRef[6][0]
-        print("Data of timezons in " + path + " extracted")
-        timesZonesDayLight = pd.read_excel(path, index_col=0)
-        Data_WD['jetLag'] = None        
-        
-        for index in Data_WD.index.values:
-            Data_WD.loc[index , 'jetLag'] = timesZonesDayLight.loc[Data_WD.loc[index,'hometeam'],Data_WD.loc[index,'visteam']]
-        
-        return Data_WD
